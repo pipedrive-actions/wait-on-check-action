@@ -35,7 +35,7 @@ class GithubChecksVerifier < ApplicationService
     apply_filters(checks)
   end
 
-  def log_checks(checks, msg)
+    def log_checks(checks, msg)
     return unless verbose
 
     puts msg
@@ -44,6 +44,21 @@ class GithubChecksVerifier < ApplicationService
       print "Checks #{status}: "
       puts checks.select { |check| check.status == status }.map(&:name).join(", ")
     end
+
+    checks.each do |check|
+        log_check_detials(check)
+    end
+  end
+
+  def log_check_details(check)
+    puts "check name: #{check.name}"
+    puts "status: #{check.status}"
+    puts "conclusion: #{check.conclusion}" if check.status == "completed"
+    puts "details here: #{check.details_url}"
+    puts "when started?: #{check.started_at}"
+    puts "when completed? #{check.completed_at}" if check.status == "completed"
+    puts "fail reason: #{check.output['summary']}" if check.status == "completed" && check.conclusion != "success"
+    puts "-" * 40
   end
 
   def apply_filters(checks)
