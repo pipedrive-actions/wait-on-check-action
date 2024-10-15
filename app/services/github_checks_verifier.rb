@@ -88,7 +88,7 @@ class GithubChecksVerifier < ApplicationService
   def show_checks_conclusion_message(checks)
     puts "Checks completed:"
     puts checks.reduce("") { |message, check|
-      "#{message}#{check.name}: #{check.status} (#{check.conclusion}, #{check.details_url})\n"
+      "#{message}#{check.name}: #{check.status} (#{check.conclusion})\n"
     }
   end
 
